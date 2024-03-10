@@ -69,7 +69,9 @@ internal static class Program
             var serviceType = _overallState.Diagram.ServiceType;
             var direction = _overallState.Diagram.Direction;
             var stateStation = stations![(int)_overallState.NextStation!.Index!];
+            var stateStationInternalData = StationMappings.GetStationByJapaneseName(stateStation.Name!)!;
             var isLastStation = stateStation.Index + 1 == stations.Count;
+            var isTheFirstPassengerStation = false;
             
             // Get the station after the next
             Station nextNextStation = null!;
@@ -87,13 +89,69 @@ internal static class Program
                 }
             }
 
+
+            // If the current station index is different from the state station index and the station is a passenger stop
+            if (_currentStationIndex != stateStation.Index && stateStation.StopType == (int?)StopType.StopForPassenger)
+            {
+                _currentStationIndex = stateStation.Index;
+                _announcementPlayed = false;
+            }
+            
+            // Play announcement when 5 meters away from the station and speed is less than 2km/h
+            if (Math.Abs((float)_overallState.NextStation!.Distance!) < 5 && !_overallState.TrainState!.Lamps!.Pilot && !_announcementPlayed)
+            {
+                _announcementPlayed = true;
+
+                if (!isLastStation)
+                {
+                    StandardAnnounce();
+                } else {
+                    LastStationAnnounce();
+                }
+            }
+            
+            Console.WriteLine();
+            Console.WriteLine("終了するにはCtrl+Cを押してください。");
+            
+            Thread.Sleep(500);
+            Console.Clear();
+            
+            continue;
+
             void StandardAnnounce()
             {
                 Utils.AudioPlayer(new List<string>
                 {
-                    $"arr_{StationMappings.GetEnglishStationName(stateStation.Name!)!.ToLower()}.mp3",
-                    AudioMappings.Sentence.ThankYouForRiding,
+                    $"arr_{stateStationInternalData.Name.ToLower()}.mp3",
                 });
+                
+                // If the platform is curved
+                if (stateStationInternalData.IsCurvedPlatform)
+                {
+                    Utils.AudioPlayer(new List<string>
+                    {
+                        AudioMappings.Sentence.MindTheGap,
+                        AudioMappings.Sentence.ThankYouForRiding,
+                    });
+                }
+                else
+                {
+                    Utils.AudioPlayer(new List<string>
+                    {
+                        AudioMappings.Sentence.ThankYouForRiding,
+                    });
+                }
+                
+                Thread.Sleep(100);
+                
+                // If there is a transfer
+                if (stateStationInternalData.IsInterchangeWithJieiR)
+                {
+                    Utils.AudioPlayer(new List<string>
+                    {
+                        AudioMappings.Sentence.JieiRNorikae
+                    });
+                }
 
                 Thread.Sleep(1000);
 
@@ -133,47 +191,36 @@ internal static class Program
 
             void LastStationAnnounce()
             {
-                Utils.AudioPlayer(new List<string>
+                
+                // If the platform is curved
+                if (stateStationInternalData.IsCurvedPlatform)
                 {
-                    $"{StationMappings.GetEnglishStationName(stateStation.Name!)!.ToLower()}.mp3",
-                });
+                    Utils.AudioPlayer(new List<string>
+                    {
+                        AudioMappings.Sentence.MindTheGap
+                    });
+                }
                 
                 Thread.Sleep(50);
                 
                 Utils.AudioPlayer(new List<string>
                 {
-                    $"{StationMappings.GetEnglishStationName(stateStation.Name!)!.ToLower()}.mp3",
+                    AudioMappings.Sentence.ThankYouForRidingFinal,
+                    $"{stateStationInternalData.Name.ToLower()}.mp3",
+                    $"{stateStationInternalData.Name.ToLower()}.mp3",
                     AudioMappings.Sentence.LastStop,
                     AudioMappings.Sentence.ForgotBelongings
                 });
-            }
-            
-
-            // If the current station index is different from the state station index and the station is a passenger stop
-            if (_currentStationIndex != stateStation.Index && stateStation.StopType == (int?)StopType.StopForPassenger)
-            {
-                _currentStationIndex = stateStation.Index;
-                _announcementPlayed = false;
-            }
-            
-            // Play announcement when 5 meters away from the station and speed is less than 2km/h
-            if (Math.Abs((float)_overallState.NextStation!.Distance!) < 5 && !_overallState.TrainState!.Lamps!.Pilot && !_announcementPlayed)
-            {
-                _announcementPlayed = true;
-
-                if (!isLastStation)
+                
+                // If there is a transfer
+                if (stateStationInternalData.IsInterchangeWithJieiR)
                 {
-                    StandardAnnounce();
-                } else {
-                    LastStationAnnounce();
+                    Utils.AudioPlayer(new List<string>
+                    {
+                        AudioMappings.Sentence.JieiRNorikae
+                    });
                 }
             }
-            
-            Console.WriteLine();
-            Console.WriteLine("終了するにはCtrl+Cを押してください。");
-            
-            Thread.Sleep(500);
-            Console.Clear();
         }
     }
 

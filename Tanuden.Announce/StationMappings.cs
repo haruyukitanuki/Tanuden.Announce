@@ -6,6 +6,8 @@ internal class StationData
     public int Id { get; set; }
     public string JapaneseName { get; set; } = "";
     public string Name { get; set; } = "";
+    public bool IsInterchangeWithJieiR { get; set; }
+    public bool IsCurvedPlatform { get; set; }
 }
 
 internal abstract class StationMappings
@@ -17,12 +19,14 @@ internal abstract class StationMappings
             Id = 1,
             JapaneseName = "館浜",
             Name = "Tatehama",
+            IsInterchangeWithJieiR = true
         },
         new StationData
         {
             Id = 2,
             JapaneseName = "駒野",
             Name = "Komano",
+            IsCurvedPlatform = true
         },
         new StationData
         {
@@ -35,6 +39,7 @@ internal abstract class StationMappings
             Id = 4,
             JapaneseName = "海岸公園",
             Name = "Kaigankoen",
+            IsCurvedPlatform = true
         },
         new StationData
         {
@@ -47,12 +52,15 @@ internal abstract class StationMappings
             Id = 6,
             JapaneseName = "津崎",
             Name = "Tsuzaki",
+            IsCurvedPlatform = true
         },
         new StationData
         {
             Id = 7,
             JapaneseName = "浜園",
             Name = "Hamazono",
+            IsInterchangeWithJieiR = true,
+            IsCurvedPlatform = true
         },
         new StationData
         {
@@ -89,5 +97,10 @@ internal abstract class StationMappings
     internal static string? GetEnglishStationName(string japaneseName)
     {
         return StationDatabase.Find(station => station.JapaneseName == japaneseName)!.Name;
+    }
+    
+    internal static StationData? GetStationByJapaneseName(string japaneseName)
+    {
+        return StationDatabase.Find(station => station.JapaneseName == japaneseName);
     }
 }
