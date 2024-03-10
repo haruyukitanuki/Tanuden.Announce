@@ -191,12 +191,15 @@ internal static class Program
                 });
                 
                 // If serviceType is not 'local', play next station is
-                Utils.AudioPlayer(new List<string>
+                if (serviceType != "local")
                 {
-                    AudioMappings.Sentence.NextStop,
-                    $"{StationMappings.GetEnglishStationName(nextNextStation.Name!)!.ToLower()}.mp3",
-                    AudioMappings.Sentence.WillStopAt
-                });
+                    Utils.AudioPlayer(new List<string>
+                    {
+                        AudioMappings.Sentence.NextStop,
+                        $"{StationMappings.GetEnglishStationName(nextNextStation.Name!)!.ToLower()}.mp3",
+                        AudioMappings.Sentence.WillStopAt
+                    });
+                }
             }
 
             void LastStationAnnounce()
