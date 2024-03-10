@@ -67,6 +67,7 @@ namespace Tanuden.Announce
             internal static readonly string ForgotBelongings = "wasuremonochui.mp3";
             internal static readonly string MindTheGap = "ashimotochui.mp3";
             internal static readonly string ThankYouForRiding = "joshaarigato.mp3";
+            internal static readonly string ThankYouForRidingFinal = "shuten-joshaarigato.mp3";
             internal static readonly string Terminates = "terminates.mp3";
 
             internal static readonly string LastStop = "last-stop.mp3";
@@ -77,6 +78,8 @@ namespace Tanuden.Announce
 
             internal static readonly string BoundFor = "bound-for.mp3";
 
+            internal static readonly string JieiRNorikae = "jiei-norikae.mp3";
+            
             internal static readonly string Desu = "to-be.mp3";
         }
     }
