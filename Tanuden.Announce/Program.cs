@@ -60,8 +60,8 @@ internal static class Program
             }
             
             
-            Console.WriteLine("次の駅距離: " + _overallState.NextStation?.Distance);
-            Console.WriteLine("次は" + _overallState.NextStation!.Name);
+            Console.WriteLine("次の駅距離: " + Math.Round((double)_overallState.NextStation?.Distance!, 2) + "m");
+            Console.WriteLine($"次は{_overallState.NextStation!.Name} ({ (_overallState.NextStation.IsStopping ? "停":"通" )}) です。");
             
             
             var stations = _overallState.Diagram!.Stations;
@@ -71,6 +71,17 @@ internal static class Program
             var stateStation = stations![(int)_overallState.NextStation!.Index!];
             var stateStationInternalData = StationMappings.GetStationByJapaneseName(stateStation.Name!)!;
             var isLastStation = stateStation.Index + 1 == stations.Count;
+            
+            // Override isLastStation if the departure time is present and if the arrival and departure timings are within .5min
+            if (stateStation.Timings.Departure != null && stateStation.Timings.Arrival != null)
+            {
+                var arrival = stateStation.Timings.Arrival;
+                var departure = stateStation.Timings.Departure;
+                if (departure!.Value.Subtract(arrival!.Value).TotalMinutes < 0.5)
+                {
+                    isLastStation = false;
+                }
+            }
             
             // Get the station after the next
             Station nextNextStation = null!;
@@ -206,10 +217,18 @@ internal static class Program
                 {
                     AudioMappings.Sentence.ThankYouForRidingFinal,
                     $"{stateStationInternalData.Name.ToLower()}.mp3",
+                });
+                
+                Thread.Sleep(50);
+                
+                Utils.AudioPlayer(new List<string>
+                {
                     $"{stateStationInternalData.Name.ToLower()}.mp3",
                     AudioMappings.Sentence.LastStop,
                     AudioMappings.Sentence.ForgotBelongings
                 });
+                
+                Thread.Sleep(100);
                 
                 // If there is a transfer
                 if (stateStationInternalData.IsInterchangeWithJieiR)
