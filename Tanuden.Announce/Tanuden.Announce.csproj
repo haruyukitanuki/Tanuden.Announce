@@ -13,8 +13,6 @@
         <NeutralLanguage>ja</NeutralLanguage>
         <Version>1.0.0</Version>
         <Copyright>2024, Haruyuki Tanukiji. All rights reserved.</Copyright>
-
-        <PublishSingleFile>true</PublishSingleFile>
         <SelfContained>true</SelfContained>
         <RuntimeIdentifier>win-x86</RuntimeIdentifier>
     </PropertyGroup>
