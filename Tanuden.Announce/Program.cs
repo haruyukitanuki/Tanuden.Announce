@@ -71,7 +71,6 @@ internal static class Program
             var stateStation = stations![(int)_overallState.NextStation!.Index!];
             var stateStationInternalData = StationMappings.GetStationByJapaneseName(stateStation.Name!)!;
             var isLastStation = stateStation.Index + 1 == stations.Count;
-            var isTheFirstPassengerStation = false;
             
             // Get the station after the next
             Station nextNextStation = null!;
