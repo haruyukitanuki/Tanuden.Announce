@@ -63,21 +63,24 @@ internal static class Program
             Console.WriteLine("次の駅距離: " + Math.Round((double)_overallState.NextStation?.Distance!, 2) + "m");
             Console.WriteLine($"次は{_overallState.NextStation!.Name} ({ (_overallState.NextStation.IsStopping ? "停":"通" )}) です。");
             
-            
-            var stations = _overallState.Diagram!.Stations;
             var boundFor = _overallState.Diagram.BoundFor;
             var serviceType = _overallState.Diagram.ServiceType;
             var direction = _overallState.Diagram.Direction;
+            
+            var stations = _overallState.Diagram!.Stations;
+            var passengerStations = stations.Where(x => x.StopType == (int?)StopType.StopForPassenger).ToList();
+            var currentIndexInPassengerStations = passengerStations.FindIndex(x => x.Index == _overallState.NextStation.Index);
+            
             var stateStation = stations![(int)_overallState.NextStation!.Index!];
             var stateStationInternalData = StationMappings.GetStationByJapaneseName(stateStation.Name!)!;
-            var isLastStation = stateStation.Index + 1 == stations.Count;
+            var isLastStation = currentIndexInPassengerStations + 1 == passengerStations.Count;
             
             // Override isLastStation if the departure time is present and if the arrival and departure timings are within .5min
             if (stateStation.Timings.Departure != null && stateStation.Timings.Arrival != null)
             {
                 var arrival = stateStation.Timings.Arrival;
                 var departure = stateStation.Timings.Departure;
-                if (departure!.Value.Subtract(arrival!.Value).TotalMinutes < 0.5)
+                if (departure!.Value.Subtract(arrival!.Value).TotalSeconds < 30)
                 {
                     isLastStation = false;
                 }
@@ -85,18 +88,13 @@ internal static class Program
             
             // Get the station after the next
             Station nextNextStation = null!;
-            if (stateStation.Index + 1 == stations.Count)
+            try
             {
-                nextNextStation = stations[(int)stateStation.Index!];
+                nextNextStation = passengerStations[(int)_overallState.NextStation.Index + 1];
             }
-            else
+            catch (ArgumentOutOfRangeException)
             {
-                // This is to ensure that the next station fetched is a passenger stop
-                nextNextStation = stations[(int)stateStation.Index! + 1];
-                while (nextNextStation.StopType != (int?)StopType.StopForPassenger)
-                {
-                    nextNextStation = stations[(int)nextNextStation.Index! + 1];
-                }
+                // ignored
             }
 
 
