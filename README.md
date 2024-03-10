@@ -10,7 +10,7 @@ TrainCrewにJR・東京メトロ風の到着放送が追加のアプリです。
 > このアプリは自動的にアップデートを確認をしません。アップデートの通知を受け取りたい場合は、Discordサーバーへの参加してください。
 
 ## 💾 タヌ電OSS
-このリポジトリのソースコードはオープンソースです。[GPL-3.0ライセンス](https://github.com/haruyukitanuki/Tanuden.Announce)に従って、無償で内容を変更、共有、配布することができます。
+このリポジトリのソースコードはオープンソースです。[GPL-3.0ライセンス](https://github.com/haruyukitanuki/Tanuden.Announce?tab=GPL-3.0-1-ov-file)に従って、無償で内容を変更、共有、配布することができます。
 
 
 ## 💝 応援をよろしくお願いいたします。
