@@ -91,6 +91,48 @@ internal abstract class StationMappings
             Id = 12,
             JapaneseName = "大道寺",
             Name = "Daidoji",
+        },
+        new StationData
+        {
+            Id = 0,
+            JapaneseName = "赤山町",
+            Name = "Akayamacho",
+        },
+        new StationData
+        {
+            Id = 0,
+            JapaneseName = "玉川温泉",
+            Name = "Tamagawaonsen",
+        },
+        new StationData
+        {
+            Id = 0,
+            JapaneseName = "灘",
+            Name = "Nada",
+        },
+        new StationData
+        {
+            Id = 0,
+            JapaneseName = "東井",
+            Name = "Toi",
+        },
+        new StationData
+        {
+            Id = 0,
+            JapaneseName = "新大路",
+            Name = "Shinoji",
+        },
+        new StationData
+        {
+            Id = 0,
+            JapaneseName = "大路",
+            Name = "Oji",
+        },
+        new StationData
+        {
+            Id = 0,
+            JapaneseName = "大手橋",
+            Name = "Otebashi",
         }
     };
     
