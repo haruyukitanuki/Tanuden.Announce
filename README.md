@@ -9,7 +9,7 @@ TrainCrewにJR・東京メトロ風の到着放送を追加するアプリです
 ## 使い方
 1. [ここ](https://github.com/haruyukitanuki/Tanuden.Announce/releases)にEXEファイルをダウンロードする。
 2. EXEを実行する。
-3. 終了の際にはCTRL+Cを押す。
+3. 終了するにはCTRL+Cを押す。
 
 > [!IMPORTANT] 
 > このアプリは自動的にアップデートを確認をしません。アップデートの通知を受け取りたい場合は、Discordサーバーへの参加してください。
