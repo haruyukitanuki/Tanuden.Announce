@@ -1,5 +1,10 @@
 # 🔊 Tanuden.Announce
-TrainCrewにJR・東京メトロ風の到着放送が追加のアプリです。
+TrainCrewにJR・東京メトロ風の到着放送を追加するアプリです。
+
+## 動画
+<!-- [![Tanuden Announce Demo (Github use)](https://github.com/haruyukitanuki/Tanuden.Announce/assets/119217207/7a2c678c-90bf-468f-b954-ba22ea3ca440)](https://www.youtube.com/watch?v=jvE-rDHYe6w) -->
+
+<a href="https://www.youtube.com/watch?v=jvE-rDHYe6w" target="_blank"><img src="https://github.com/haruyukitanuki/Tanuden.Announce/assets/119217207/7a2c678c-90bf-468f-b954-ba22ea3ca440" width="512" height="288" /></a>
 
 ## 使い方
 1. [ここ](https://github.com/haruyukitanuki/Tanuden.Announce/releases)にEXEファイルをダウンロードする。
@@ -14,7 +19,6 @@ Discordサーバーでメッセージを送ってください。
 
 ## 💾 タヌ電OSS
 このリポジトリのソースコードはオープンソースです。[GPL-3.0ライセンス](https://github.com/haruyukitanuki/Tanuden.Announce?tab=GPL-3.0-1-ov-file)に従って、無償で内容を変更、共有、配布することができます。
-
 
 ## 💝 応援をよろしくお願いいたします。
 [狸河電鉄公式Discordサーバー](https://discord.gg/WV2yRvYBN7)・
