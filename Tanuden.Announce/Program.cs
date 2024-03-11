@@ -250,7 +250,7 @@ internal static class Program
         Console.OutputEncoding = Encoding.Unicode;
 
         // Display welcome message
-        Console.WriteLine("Tanuden.AnnounceはTrainCrewに到着放送が追加のアプリです。");
+        Console.WriteLine("Tanuden.AnnounceはTrainCrewに到着放送を追加するアプリです。");
         Console.WriteLine("狸河電鉄作品をご利用いただきありがとうございます。");
         Console.WriteLine();
         Console.WriteLine("このアプリはオープンソースソフトウェア（OSS）です。ライセンスはGNU GPLv3でライセンスです。");
