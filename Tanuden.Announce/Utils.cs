@@ -2,6 +2,8 @@ using System.Text.RegularExpressions;
 using NAudio.Wave;
 using Tanuden.Common;
 using TrainCrew;
+using CarState = Tanuden.Common.CarState;
+using Station = Tanuden.Common.Station;
 using TrainState = TrainCrew.TrainState;
 
 namespace Tanuden.Announce;
@@ -13,18 +15,18 @@ public abstract class Utils
         // If gameScreen is MainGame, return true
         return gameScreen is GameScreen.MainGame;
     }
-    
+
     public static void AudioPlayer(List<string> audioMapNames)
     {
         // List of streams
         var streams = new List<WaveStream>();
-        
+
         // Load all the audio into memory first. Prevents audio from being delayed.
         foreach (var fileName in audioMapNames)
         {
             var url = AudioMappings.UrlPrefix + fileName;
             var mf = new MediaFoundationReader(url);
-            
+
             streams.Add(mf);
         }
 
@@ -33,11 +35,8 @@ public abstract class Utils
             using var wo = new WasapiOut();
             wo.Init(stream);
             wo.Play();
-            
-            while (wo.PlaybackState == PlaybackState.Playing)
-            {
-                Thread.Sleep(10);
-            }
+
+            while (wo.PlaybackState == PlaybackState.Playing) Thread.Sleep(10);
         }
     }
 
@@ -51,10 +50,10 @@ public abstract class Utils
             var platformNumber = stopName.Split("番")[0];
             // Delete any non-numeric characters
             platformNumber = Regex.Replace(platformNumber, "[^0-9]", "");
-            
+
             return int.Parse(platformNumber);
         }
-        
+
         return 0;
     }
 
@@ -162,7 +161,7 @@ public abstract class Utils
                 MrPressure = rawTrainState.MR_Press,
 
                 // reformat rawData.CarStates to models.CarState
-                CarStates = rawTrainState.CarStates.Select((carState, index) => new Tanuden.Common.CarState
+                CarStates = rawTrainState.CarStates.Select((carState, index) => new CarState
                 {
                     CarNo = index + 1,
                     IsDoorClosed = carState.DoorClose,
@@ -206,14 +205,15 @@ public abstract class Utils
             {
                 Direction = direction,
                 BoundFor = rawTrainState.BoundFor,
-                ServiceType = classType, // NOTE: This differs from the OpenTetsu standard. Usually this would be in Japanese.
+                ServiceType =
+                    classType, // NOTE: This differs from the OpenTetsu standard. Usually this would be in Japanese.
 
                 // Take the last item on rawData.stations and subtract with rawData.TotalLength
                 RemainingDistance = rawTrainState.stationList.Count > 0
                     ? float.Abs(rawTrainState.TotalLength - rawTrainState.stationList.Last().TotalLength)
                     : 0,
 
-                Stations = rawTrainState.stationList.Select((station, index) => new Tanuden.Common.Station
+                Stations = rawTrainState.stationList.Select((station, index) => new Station
                 {
                     Name = station.Name,
                     Index = index,

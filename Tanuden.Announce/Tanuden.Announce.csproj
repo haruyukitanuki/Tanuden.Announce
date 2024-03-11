@@ -18,16 +18,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Reference Include="Tanuden.Common">
-        <HintPath>..\dll\Tanuden.Common.dll</HintPath>
-      </Reference>
-      <Reference Include="TrainCrewInput">
-        <HintPath>..\dll\TrainCrewInput.dll</HintPath>
-      </Reference>
+        <Reference Include="Tanuden.Common">
+            <HintPath>..\dll\Tanuden.Common.dll</HintPath>
+        </Reference>
+        <Reference Include="TrainCrewInput">
+            <HintPath>..\dll\TrainCrewInput.dll</HintPath>
+        </Reference>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="NAudio" Version="2.2.1" />
+        <PackageReference Include="NAudio" Version="2.2.1"/>
     </ItemGroup>
 
 </Project>
