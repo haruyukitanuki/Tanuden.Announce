@@ -77,7 +77,7 @@ internal static class Program
 
             var stateStation = stations![(int)_overallState.NextStation!.Index!];
             var stateStationInternalData = StationMappings.GetStationByJapaneseName(stateStation.Name!)!;
-            var isLastStation = currentIndexInPassengerStations + 1 == passengerStations.Count;
+            var isLastStation = stateStation.Name == boundFor;
 
             // Override isLastStation if the departure time is present and if the arrival and departure timings are within .5min
             if (stateStation.Timings.Departure != null && stateStation.Timings.Arrival != null)
@@ -178,16 +178,17 @@ internal static class Program
                     // If direction is 'inbound', play 'platform-1.mp3', outbound, play 'platform-2.mp3'
                     platformNumberAudio,
                     $"shubetsu_{serviceType}.mp3",
-                    $"{StationMappings.GetEnglishStationName(boundFor!)!.ToLower()}.mp3",
+                    $"{StationMappings.GetStationByJapaneseName(boundFor!)!.Name.ToLower()}.mp3",
                     AudioMappings.Sentence.BoundFor
                 });
 
                 // If serviceType is not 'local', play next station is
-                if (serviceType != "local")
+                var nextStation = StationMappings.GetStationByJapaneseName(nextNextStation.Name!);
+                if (serviceType != "local" && nextStation != null)
                     Utils.AudioPlayer(new List<string>
                     {
                         AudioMappings.Sentence.NextStop,
-                        $"{StationMappings.GetEnglishStationName(nextNextStation.Name!)!.ToLower()}.mp3",
+                        $"{nextStation.Name.ToLower()}.mp3",
                         AudioMappings.Sentence.WillStopAt
                     });
             }
